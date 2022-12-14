@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import './App.css';
 
-import firebase from 'firebase/compat/app'; 
-import 'firebase/compat/firestore';
-import 'firebase/compat/auth';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 import 'firebase/analytics';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -25,15 +25,20 @@ const analytics = firebase.analytics();
 
 
 function App() {
+
   const [user] = useAuthState(auth);
+
   return (
     <div className="App">
-      <header className="App-header">
-       
+      <header>
+        <h1>ONLY CHATS</h1>
+        <SignOut />
       </header>
+
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
+
     </div>
   );
 }
@@ -44,20 +49,19 @@ function SignIn() {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
   }
-  
+
   return (
     <>
-      <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
-      <p>Do not violate the community guidelines or you will be banned for life!</p>
+      <button className="sign-in" onClick={signInWithGoogle}>Google Sign In </button>
+      <center><p>Follow community Guid lines or else you will get ban :)</p></center>
     </>
   )
 
-  
 }
 
 function SignOut() {
   return auth.currentUser && (
-    <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
+    <button className="sign-out" onClick={() => auth.signOut()}>Log Out</button>
   )
 }
 
@@ -101,7 +105,7 @@ function ChatRoom() {
 
       <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
 
-      <button type="submit" disabled={!formValue}>🕊️</button>
+      <button type="submit" disabled={!formValue}>➡️</button>
 
     </form>
   </>)
@@ -120,5 +124,6 @@ function ChatMessage(props) {
     </div>
   </>)
 }
+
 
 export default App;
